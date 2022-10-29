@@ -9,22 +9,12 @@ jobs:
     strategy:
       matrix:
         node-version: [12.x, 15.x]
-        mongodb-version: [5.0.0]
     steps:
       - uses: actions/checkout@v1
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - uses: wbari/start-mongoDB@v0.2
-        with:
-          mongodb-version: ${{ matrix.mongodb-version }}
-      - name: Configure sysctl limits
-        run: |
-          sudo swapoff -a
-          sudo sysctl -w vm.swappiness=1
-          sudo sysctl -w fs.file-max=262144
-          sudo sysctl -w vm.max_map_count=262144
       - name: npm install
         run: |
           npm install
