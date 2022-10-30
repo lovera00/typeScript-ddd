@@ -11,7 +11,7 @@ jobs:
         node-version: [12.x, 15.x]
         mongodb-version: [5.0.0]
         database-name:
-          - codely
+          - mooc-backend-dev
         database-user:
           - codely
         database-password:
