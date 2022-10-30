@@ -10,18 +10,12 @@ jobs:
       matrix:
         node-version: [12.x, 15.x]
         mongodb-version: [5.0.0]
-        postgres-version: [13.2]
     steps:
       - uses: actions/checkout@v1
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Install postgres ${{ matrix.postgres-version }}
-        uses: harmon758/postgresql-action@v1
-        with:
-          postgresql version: ${{ matrix.postgres-version }}
-      - name: Install mongodb
       - uses: wbari/start-mongoDB@v0.2
         with:
           mongodb-version: ${{ matrix.mongodb-version }}
