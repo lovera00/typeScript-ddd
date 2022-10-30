@@ -64,7 +64,7 @@ jobs:
           DATABASE_HOST: ${{ matrix.database-host }}
           DATABASE_PORT: ${{ matrix.database-port }}
         run: |
-          npm run test
+          npm run lint
       - name: npm test
         run: |
           npm test
