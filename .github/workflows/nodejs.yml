@@ -10,6 +10,30 @@ jobs:
       matrix:
         node-version: [12.x, 15.x]
         mongodb-version: [5.0.0]
+        database-name:
+          - codely
+        database-user:
+          - codely
+        database-password:
+          - codely
+        database-host:
+          - localhost
+        database-port:
+          - 5432
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_USER: ${{ matrix.database-user }}
+          POSTGRES_PASSWORD: ${{ matrix.database-password }}
+          POSTGRES_DB: ${{ matrix.database-name }}
+        ports:
+          - ${{ matrix.database-port }}:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
       - uses: actions/checkout@v1
       - name: Use Node.js ${{ matrix.node-version }}
@@ -32,6 +56,13 @@ jobs:
         run: |
           npm run build --if-present
           npm run lint
+      - name: setup test database
+        env:
+          DATABASE_NAME: ${{ matrix.database-name }}
+          DATABASE_USER: ${{ matrix.database-user }}
+          DATABASE_PASSWORD: ${{ matrix.database-password }}
+          DATABASE_HOST: ${{ matrix.database-host }}
+          DATABASE_PORT: ${{ matrix.database-port }}
       - name: npm test
         run: |
           npm test
